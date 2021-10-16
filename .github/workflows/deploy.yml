@@ -43,4 +43,4 @@ jobs:
           aws-region: us-west-1
 
       - name: Push files to S3
-        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --size-only --exclude ".github/*" 
+        run: aws s3 sync frontend-app/build/ s3://${{ secrets.S3_CDN_BUCKET }} --size-only --exclude ".github/*" 
