@@ -30,6 +30,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+      
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
         with:
@@ -37,4 +43,4 @@ jobs:
           aws-region: us-west-1
 
       - name: Push files to S3
-        run: aws s3 sync frontend-app/ s3://${{ secrets.S3_CDN_BUCKET }} --size-only --exclude ".github/*" 
+        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --size-only --exclude ".github/*" 
