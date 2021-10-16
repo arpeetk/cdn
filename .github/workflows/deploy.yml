@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     # environment name
     environment: dev
+    permissions:
+      id-token: write
+      contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -28,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Configure AWS credentials from Test account
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@master
         with:
           role-to-assume: ${{ secrets.GIT_OIDC_PROVIDER_ROLE_ARN }}
           aws-region: us-west-1
