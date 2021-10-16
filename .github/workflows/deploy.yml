@@ -34,7 +34,7 @@ jobs:
         run: yarn
 
       - name: Build
-        run: yarn build
+        run: yarn --cwd frontend-app/ build
       
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
