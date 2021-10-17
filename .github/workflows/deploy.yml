@@ -31,10 +31,12 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Install dependencies
-        run: yarn --cwd frontend-app/
+        run: yarn
+        working-directory: frontend-app
 
       - name: Build
-        run: yarn --cwd frontend-app/ build
+        run: yarn build
+        working-directory: frontend-app
       
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
@@ -43,4 +45,5 @@ jobs:
           aws-region: us-west-1
 
       - name: Push files to S3
-        run: aws s3 sync frontend-app/build/ s3://${{ secrets.S3_CDN_BUCKET }} --size-only --exclude ".github/*" 
+        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --exclude ".github/*" 
+        working-directory: frontend-app
