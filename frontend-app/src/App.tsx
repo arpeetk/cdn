@@ -8,8 +8,6 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h2>Welcome to Skiff!</h2>
-        <h3>AK's version</h3>
-        <h2>Testing</h2>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
