@@ -8,7 +8,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h2>Welcome to Skiff!</h2>
-        <h3>AK's version 2.0</h3>
+        <h3>VG's version 1.0</h3>
+        <h4>AK supports</h4>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
