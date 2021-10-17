@@ -1,8 +1,7 @@
 repo:
 - '*'
 
-# Add '@domain/terraform' label to any change within the 'core' package
-@domain/terraform:
+terraform:
 - terraform/**/*
 
 # Add 'test' label to any change to *.spec.js files within the source dir
