@@ -49,7 +49,7 @@ jobs:
         
       - run: yarn publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.TOKEN}}
         working-directory: frontend-app          
 #       - name: Configure AWS credentials from Test account
 #         uses: aws-actions/configure-aws-credentials@master
