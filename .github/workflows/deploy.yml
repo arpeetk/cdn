@@ -45,7 +45,9 @@ jobs:
           node-version: '12.x'
           scope: '@arpeetk'
           always-auth: true
-
+      
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
+      
       - name: Publish Package
         run: |
           yarn publish
