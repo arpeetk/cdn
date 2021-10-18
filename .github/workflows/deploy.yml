@@ -39,7 +39,7 @@ jobs:
         working-directory: frontend-app          
 
       # Setup .npmrc file to publish to GitHub Packages
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v1
         with:
           registry-url: 'https://npm.pkg.github.com'
           node-version: '12.x'
