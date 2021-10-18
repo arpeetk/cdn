@@ -45,8 +45,7 @@ jobs:
 
       - name: Publish Package
         run: |
-          yarn pack
-          yarn publish
+          npm publish
         working-directory: frontend-app
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
