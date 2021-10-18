@@ -43,12 +43,12 @@ jobs:
       - name: Build
         run: yarn build
         working-directory: frontend-app
-        
           
       - name: Publish Package
         run: |
           yarn pack
           yarn publish
+        working-directory: frontend-app
       
 #       - name: Configure AWS credentials from Test account
 #         uses: aws-actions/configure-aws-credentials@master
