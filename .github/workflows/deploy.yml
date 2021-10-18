@@ -49,7 +49,7 @@ jobs:
           yarn publish
         working-directory: frontend-app
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.TOKEN }}
       
 #       - name: Configure AWS credentials from Test account
 #         uses: aws-actions/configure-aws-credentials@master
