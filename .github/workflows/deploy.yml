@@ -42,10 +42,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           registry-url: 'https://npm.pkg.github.com'
+        scope: '@arpeetk'
 
       - name: Publish Package
         run: |
-          npm publish
+          yarn publish
         working-directory: frontend-app
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
