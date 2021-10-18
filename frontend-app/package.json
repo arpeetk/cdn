@@ -2,7 +2,13 @@
   "name": "frontend-app",
   "version": "0.1.0",
   "private": false,
-  "repository": "https://github.com/arpeetk/cdn.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arpeetk/cdn.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@arpeetk"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
