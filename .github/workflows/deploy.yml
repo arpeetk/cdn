@@ -30,6 +30,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+            # Setup .npmrc file to publish to GitHub Packages
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+      
       - name: Install dependencies
         run: yarn
         working-directory: frontend-app
@@ -37,6 +43,12 @@ jobs:
       - name: Build
         run: yarn build
         working-directory: frontend-app
+        
+          
+      - name: Publish Package
+        run: |
+          yarn pack
+          yarn publish
       
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
