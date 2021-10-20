@@ -43,20 +43,18 @@ jobs:
         with:
           registry-url: https://npm.pkg.github.com/
           working-directory: frontend-app          
-
-#       - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
-#         working-directory: frontend-app
         
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        working-directory: frontend-app          
-#       - name: Configure AWS credentials from Test account
-#         uses: aws-actions/configure-aws-credentials@master
-#         with:
-#           role-to-assume: ${{ secrets.GIT_OIDC_PROVIDER_ROLE_ARN }}
-#           aws-region: us-west-1
+#       - run: yarn publish
+#         env:
+#           NODE_AUTH_TOKEN: ${{secrets.TOKEN}}
+#         working-directory: frontend-app          
+        
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{ secrets.GIT_OIDC_PROVIDER_ROLE_ARN }}
+          aws-region: us-west-1
 
-#       - name: Push files to S3
-#         run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --cache-control 5 --exclude ".github/*" 
-#         working-directory: frontend-app
+      - name: Push files to S3
+        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --cache-control 5 --exclude ".github/*" 
+        working-directory: frontend-app
