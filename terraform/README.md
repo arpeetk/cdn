@@ -64,3 +64,11 @@ For example:
 - name: Push files to S3
   run: aws s3 sync my-folder/ s3://my-bucket
 ```
+
+## TO-DO's:
+
+1. Store Terraform State on S3
+    - this provides for robust state maintenance
+    - the assumption is that only CI/CD jobs will change the state
+    - for user testing (ideally in a dedicate test env), local state must be used
+2. Encrypted variable files (eg. bucket names, iam policies etc.)
