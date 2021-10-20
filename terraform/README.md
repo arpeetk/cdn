@@ -71,4 +71,5 @@ For example:
     - this provides for robust state maintenance
     - the assumption is that only CI/CD jobs will change the state
     - for user testing (ideally in a dedicate test env), local state must be used
-2. Encrypted variable files (eg. bucket names, iam policies etc.)
+2. Add AWS CDN resource creation module
+3. Encrypted variable files (eg. bucket names, iam policies etc.)
