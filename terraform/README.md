@@ -32,5 +32,35 @@ The purpose of the provider is to provide a secure way of performing actions aga
 │       └── outputs.tf             # output variables for the module
 ```
 
+## Commands to run Terraform scripts
 
+```
+cd dev
+terraform init
+terraform plan # verify the resources that will be created
+terraform apply -auto-approve
+```
 
+At the end of `terraform apply` command the output variables will be shown as seen below:
+```
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+github_oidc_provider_role_arn = "arn:aws:iam::111111111111:role/INRA-DEV-GITHUB-OIDC-ROLE"
+```
+
+Use the value of `github_oidc_provider_role_arn` variable to create the 
+secret in github repository workflows which requires access to AWS account.
+For example:
+
+```
+- name: Configure AWS credentials from Test account
+  uses: aws-actions/configure-aws-credentials@master
+  with:
+    role-to-assume: ${{ secrets.GIT_OIDC_PROVIDER_ROLE_ARN }}
+    aws-region: us-west-1
+
+- name: Push files to S3
+  run: aws s3 sync my-folder/ s3://my-bucket
+```
