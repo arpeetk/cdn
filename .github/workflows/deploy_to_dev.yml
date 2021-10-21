@@ -21,6 +21,7 @@ jobs:
     # environment name
     environment: dev
     permissions:
+      id-token: write
       contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
