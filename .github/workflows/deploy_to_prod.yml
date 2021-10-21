@@ -6,7 +6,7 @@ name: Deploy to PROD
 on:
   release:
     types:
-    - created
+    - published
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,10 +27,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: frontend-app-${{ github.event.release.tag_name }}
+      - name: Download Application Github Release
+        run: |
+          gh release download ${{ github.event.release.tag_name }}
+          tar -xvzf frontend-app.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
@@ -39,4 +41,4 @@ jobs:
           aws-region: us-west-1
 
       - name: Push files to S3
-        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --cache-control 5 --exclude ".github/*" 
+        run: aws s3 sync frontend-app/ s3://${{ secrets.S3_CDN_BUCKET }} --cache-control 5 --exclude ".github/*" 
