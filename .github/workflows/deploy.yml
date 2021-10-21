@@ -4,11 +4,10 @@ name: Deploy to DEV
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # Triggers the workflow on push only for the main branch
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,7 +21,6 @@ jobs:
     # environment name
     environment: dev
     permissions:
-      id-token: write
       contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -36,7 +34,12 @@ jobs:
 
       - name: Build
         run: yarn build
+        working-directory: frontend-app
+
+      - name: Test
+        run: yarn test
         working-directory: frontend-app          
+        
 
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v2
