@@ -39,19 +39,7 @@ jobs:
       - name: Test
         run: yarn test
         working-directory: frontend-app          
-        
-
-      # Setup .npmrc file to publish to GitHub Packages
-      - uses: actions/setup-node@v2
-        with:
-          registry-url: https://npm.pkg.github.com/
-          working-directory: frontend-app          
-        
-#       - run: yarn publish
-#         env:
-#           NODE_AUTH_TOKEN: ${{secrets.TOKEN}}
-#         working-directory: frontend-app          
-        
+                
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
         with:
