@@ -45,8 +45,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: frontend-app
-          path: build
-          working-directory: frontend-app          
+          path: ${{github.workspace}}/cdn/frontend-app/build          
                 
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
