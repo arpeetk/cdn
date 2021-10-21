@@ -39,7 +39,10 @@ jobs:
         # However, this is a static site so those decisions make look different.
         # For now, assuming that it's always a major version change.
       - name: Bump Version
-        run: yarn version --major
+        run: |
+          git config user.name "GitHub Actions Workflow"
+          git config user.email "<>"
+          yarn version --major
         working-directory: frontend-app
       
       - name: Create a release
