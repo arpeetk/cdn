@@ -4,10 +4,11 @@ name: Deploy to DEV
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push only for the main branch
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ development ]
-  
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,18 +36,19 @@ jobs:
 
       - name: Build
         run: yarn build
-        working-directory: frontend-app
+        working-directory: frontend-app          
 
-      - name: Test
-        run: yarn test
-        working-directory: frontend-app
-      
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      # Setup .npmrc file to publish to GitHub Packages
+      - uses: actions/setup-node@v2
         with:
-          name: frontend-app
-          path: frontend-app/build          
-                
+          registry-url: https://npm.pkg.github.com/
+          working-directory: frontend-app          
+        
+#       - run: yarn publish
+#         env:
+#           NODE_AUTH_TOKEN: ${{secrets.TOKEN}}
+#         working-directory: frontend-app          
+        
       - name: Configure AWS credentials from Test account
         uses: aws-actions/configure-aws-credentials@master
         with:
