@@ -61,3 +61,5 @@ jobs:
           # Create a release and upload the artifact
           gh release create $PACKAGE_VERSION frontend-app.tar.gz
         working-directory: frontend-app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
