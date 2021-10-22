@@ -47,7 +47,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions Workflow"
           git config user.email "<>"
-          yarn version --major
+          npm version major
           
           # Acquire version using package.json
           PACKAGE_VERSION=$(cat package.json \
