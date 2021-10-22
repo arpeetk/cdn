@@ -40,13 +40,15 @@ jobs:
         # For now, assuming that it's always a major version change.
       - name: Bump Version
         run: |
-          git config user.name "GitHub Actions Workflow"
-          git config user.email "<>"
-          yarn version --major
+        
         working-directory: frontend-app
       
       - name: Create a release
         run: |
+          git config user.name "GitHub Actions Workflow"
+          git config user.email "<>"
+          yarn version --major
+          
           # Acquire version using package.json
           PACKAGE_VERSION=$(cat package.json \
           | grep version \
@@ -54,6 +56,11 @@ jobs:
           | awk -F: '{ print $2 }' \
           | sed 's/[",]//g' \
           | tr -d '[[:space:]]')
+          
+          # Push update package version
+          git add package.json
+          git commit -m "Bump version $PACKAGE_VERSION"
+          git push
           
           # Create a tar.gz artifact
           tar -cvzf frontend-app.tar.gz build/*
