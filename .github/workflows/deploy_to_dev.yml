@@ -1,0 +1,40 @@
+name: Deploy to DEV
+
+on:
+  push:
+    branches: [ development ]
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      id-token: write
+      contents: write    
+    steps:
+      - uses: actions/checkout@v2
+            
+      - name: Install dependencies
+        run: yarn
+        working-directory: frontend-app
+
+      - name: Build
+        run: yarn build
+        working-directory: frontend-app
+
+      - name: Test
+        run: yarn test
+        working-directory: frontend-app
+                      
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{ secrets.GIT_OIDC_PROVIDER_ROLE_ARN }}
+          aws-region: us-west-1
+
+      - name: Push files to S3
+        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --cache-control 5 --exclude ".github/*" 
+        working-directory: frontend-app

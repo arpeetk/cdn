@@ -1,0 +1,35 @@
+name: Deploy to PROD
+
+on:
+  release:
+    types:
+    - published
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+    permissions:
+      id-token: write
+      contents: write
+    steps:      
+      - uses: actions/checkout@v2
+      
+      - name: Download Application Github Release
+        run: |
+          gh release download ${{ github.event.release.tag_name }} --pattern frontend-app.tar.gz
+          tar -xvzf frontend-app.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+            
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{ secrets.GIT_OIDC_PROVIDER_ROLE_ARN }}
+          aws-region: us-west-1
+
+      - name: Push files to S3
+        run: aws s3 sync build/ s3://${{ secrets.S3_CDN_BUCKET }} --cache-control 5 --exclude ".github/*" 
