@@ -40,6 +40,8 @@ jobs:
         # For eg. API change is a major version change.
         # However, this is a static site so those decisions make look different.
         # For now, assuming that it's always a major version change.
+        # Alternatively, the engineers could simply update the package.json
+        # and this workflow will be triggered based on changes to package.json
       - name: Bump Version
         run: |
         
