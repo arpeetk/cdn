@@ -1,0 +1,76 @@
+name: Create a release
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+    paths:
+    - '**/frontend-app/**'
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    environment: prod
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: yarn
+        working-directory: frontend-app
+
+      - name: Build
+        run: yarn build
+        working-directory: frontend-app
+
+      - name: Test
+        run: yarn test
+        working-directory: frontend-app
+        
+        # Todo: Logic can be added to decide whether to bump
+        # major, minor or patch versions based on files.
+        # For eg. API change is a major version change.
+        # However, this is a static site so those decisions make look different.
+        # For now, assuming that it's always a major version change.
+        # Alternatively, the engineers could simply update the package.json
+        # and this workflow will be triggered based on changes to package.json
+      - name: Bump Version
+        run: |
+        
+        working-directory: frontend-app
+      
+      - name: Create a release
+        run: |
+          git config user.name "GitHub Actions Workflow"
+          git config user.email "<>"
+          npm version major
+          
+          # Acquire version using package.json
+          PACKAGE_VERSION=$(cat package.json \
+          | grep version \
+          | head -1 \
+          | awk -F: '{ print $2 }' \
+          | sed 's/[",]//g' \
+          | tr -d '[[:space:]]')
+          
+          # Push update package version
+          git add package.json
+          git commit -m "Bump version $PACKAGE_VERSION"
+          git push
+          
+          # Create a tar.gz artifact
+          tar -cvzf frontend-app.tar.gz build/*
+          
+          # Create a release and upload the artifact
+          gh release create $PACKAGE_VERSION frontend-app.tar.gz
+        working-directory: frontend-app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
