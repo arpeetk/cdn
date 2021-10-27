@@ -52,7 +52,7 @@ jobs:
           # Push update package version
           git add package.json
           git commit -m "Bump version $PACKAGE_VERSION"
-          git push
+          git push -f
           
           # Create a tar.gz artifact
           tar -cvzf frontend-app.tar.gz build/*
